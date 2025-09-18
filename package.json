@@ -56,5 +56,8 @@
             "dev": "vite",
             "build": "npx vite build",
             "preview": "vite preview"
+      },
+      "engines": {
+            "node": ">=18.0.0"
       }
 }
