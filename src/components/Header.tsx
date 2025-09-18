@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
@@ -38,6 +38,20 @@ const academyLogo = new URL(
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEnrollOpen, setIsEnrollOpen] = useState(false);
+  const location = useLocation();
+
+  const handleScrollToSection = (sectionId: string) => {
+    if (location.pathname !== '/') {
+      // If not on homepage, navigate to homepage first
+      window.location.href = `/#${sectionId}`;
+    } else {
+      // If on homepage, scroll to section
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   const form = useForm({
     defaultValues: { name: "", phone: "", course: "" },
@@ -90,36 +104,36 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a
-              href="#home"
+            <button
+              onClick={() => handleScrollToSection('home')}
               className="text-black font-bold hover:text-blue-600 transition-colors"
             >
               Home
-            </a>
-            <a
-              href="#courses"
+            </button>
+            <button
+              onClick={() => handleScrollToSection('courses')}
               className="text-black font-bold hover:text-blue-600 transition-colors"
             >
               Courses
-            </a>
+            </button>
             <Link
               to="/study-abroad"
               className="text-black font-bold hover:text-blue-600 transition-colors"
             >
               Study Abroad
             </Link>
-            <a
-              href="#about"
+            <button
+              onClick={() => handleScrollToSection('services')}
               className="text-black font-bold hover:text-blue-600 transition-colors"
             >
               About Us
-            </a>
-            <a
-              href="#contact"
+            </button>
+            <button
+              onClick={() => handleScrollToSection('contact')}
               className="text-black font-bold hover:text-blue-600 transition-colors"
             >
               Contact
-            </a>
+            </button>
           </nav>
 
           {/* Desktop CTA Button */}
@@ -150,36 +164,49 @@ export function Header() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
-              <a
-                href="#home"
-                className="block px-3 py-2 text-black font-bold hover:text-blue-600"
+              <button
+                onClick={() => {
+                  handleScrollToSection('home');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 text-black font-bold hover:text-blue-600"
               >
                 Home
-              </a>
-              <a
-                href="#courses"
-                className="block px-3 py-2 text-black font-bold hover:text-blue-600"
+              </button>
+              <button
+                onClick={() => {
+                  handleScrollToSection('courses');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 text-black font-bold hover:text-blue-600"
               >
                 Courses
-              </a>
+              </button>
               <Link
                 to="/study-abroad"
+                onClick={() => setIsMenuOpen(false)}
                 className="block px-3 py-2 text-black font-bold hover:text-blue-600"
               >
                 Study Abroad
               </Link>
-              <a
-                href="#about"
-                className="block px-3 py-2 text-black font-bold hover:text-blue-600"
+              <button
+                onClick={() => {
+                  handleScrollToSection('services');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 text-black font-bold hover:text-blue-600"
               >
                 About Us
-              </a>
-              <a
-                href="#contact"
-                className="block px-3 py-2 text-black font-bold hover:text-blue-600"
+              </button>
+              <button
+                onClick={() => {
+                  handleScrollToSection('contact');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 text-black font-bold hover:text-blue-600"
               >
                 Contact
-              </a>
+              </button>
               <div className="px-3 py-2">
                 <DialogTrigger asChild>
                   <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
